@@ -12,16 +12,17 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// �̸��� �Է� �ް� ������ �����ϴ� ���� ������
+//이름을 입력 받고 게임을 시작하는 메인 프레임
 public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
-		setLocation(600,200);
 		setResizable(false);
 		setContentPane(new MainPanel());
+		
+		setBounds(100, 100, 800, 600);
+		setLocationRelativeTo(null);//창이 가운데 나오게
 		
 		repaint();
 		setVisible(true);
@@ -60,7 +61,7 @@ public class MainFrame extends JFrame {
 		
 		}
 		
-		// ��ư�� ������ �� �������� ���� �� �������� ����
+		// 버튼을 누르면 새 프레임을 열고 이 프레임은 종료
 		private class StartAction implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String name = textField.getText();

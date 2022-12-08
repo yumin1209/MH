@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//�� �гο����� ü�°� ������ ������
+//몬스터의 남은 체력과 점수를 보여주는 패널
 public class ScorePanel extends JPanel {
 	ImageIcon bgIcon = new ImageIcon("image/background/user.png");
 	Image bgImage = bgIcon.getImage();
@@ -38,7 +38,7 @@ public class ScorePanel extends JPanel {
 		add(energyLabel);
 	}
 	
-	// �ܺο��� �� �г��� ������ ü���� ������
+	
 	protected void changeScore(int score,int energy) {
 		this.score = score;
 		this.energy = energy;
@@ -49,7 +49,7 @@ public class ScorePanel extends JPanel {
 		repaint();
 	}
 	
-	// �� �г��� ���, ������ ü�¹� �׸���
+	
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);

@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.Vector;
 
-// ´Ü¾î¸¦ ÆÄÀÏ¿¡¼­ ÃßÃâÇØ¼­ º¤ÅÍ¿¡ ÀÔ·Â
+//ë‹¨ì–´ë¥¼ íŒŒì¼ì—ì„œ ì¶”ì¶œí•´ì„œ ë²¡í„°ì— ì…ë ¥
 public class UserRanking {
 	
 	protected class User {
@@ -28,11 +28,11 @@ public class UserRanking {
 		readRanking();
 	}
 	
-	// ·©Å· ÀĞ±â
+	// ë­í‚¹ ì½ê¸°
 	private void readRanking() {
-		userVector.clear(); // º¤ÅÍ¸¦ ÇÑ¹ø Áö¿ò
+		userVector.clear(); 
 
-		//º¤ÅÍ¿¡ À¯Àú µ¥ÀÌÅÍ »ğÀÔ
+		//ë²¡í„°ì— ìœ ì € ë°ì´í„° ì‚½ì…
 		try {
 			Scanner fScanner = new Scanner(new FileInputStream(filePath), "utf-8");
 			while(fScanner.hasNext()) {
@@ -50,12 +50,12 @@ public class UserRanking {
 		}
 	}
 	
-	//À¯Àú ·©Å· ÀúÀå
+	//ìœ ì € ë­í‚¹ ì €ì¥
 	public void saveRanking(String name, int score) {
 		User user = new User(name, score);
 		userVector.add(user);
 		
-		//À¯Àú º¤ÅÍ¸¦ Á¡¼ö ³»¸²Â÷¼ø Á¤·Ä
+		//ìœ ì € ë²¡í„°ë¥¼ ì ìˆ˜ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬
 		Collections.sort(userVector, new Comparator<User>() {
 			public int compare(User u1, User u2) {
 				if(u1.score < u2.score) 
@@ -79,7 +79,7 @@ public class UserRanking {
 		}
 	}
 	
-	// ·©Å·À¸·Î À¯Àú ¾ò±â
+	// ë­í‚¹ìœ¼ë¡œ ìœ ì € ì–»ê¸°
 	public User getUser(int ranking) {
 		return userVector.get(ranking);
 	}

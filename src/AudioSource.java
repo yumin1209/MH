@@ -7,8 +7,7 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-// ¿Àµğ¿À¸¦ ¼ÛÃâÇÏ´Â Å¬·¡½º
-//try try
+// ì˜¤ë””ì˜¤ë¥¼ ì†¡ì¶œí•˜ëŠ” í´ë˜ìŠ¤
 public class AudioSource {
 	private Clip bgmClip;
 	private Clip correctClip;
@@ -24,7 +23,7 @@ public class AudioSource {
 		gameoverClip = getClip("audio/gameover.wav");
 	}
 	
-	// À½¾Ç ÆÄÀÏ°ú ¿Àµğ¿À Å¬¸³À» ¿¬°á
+	// ìŒì•… íŒŒì¼ê³¼ ì˜¤ë””ì˜¤ í´ë¦½ì„ ì—°ê²°
 	private Clip getClip(String filePath) {
 		Clip clip=null;
 		try {
@@ -39,7 +38,7 @@ public class AudioSource {
 		return clip;
 	}
 	
-	// ¿Àµğ¿À Å¬¸³ Àç»ı
+	// ì˜¤ë””ì˜¤ í´ë¦½ ì¬ìƒ
 	public void playAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.setFramePosition(0); bgmClip.loop(Clip.LOOP_CONTINUOUSLY); break;
@@ -50,7 +49,7 @@ public class AudioSource {
 		}
 	}
 	
-	// ¿Àµğ¿À Å¬¸³ Á¤Áö
+	// ì˜¤ë””ì˜¤ í´ë¦½ ì •ì§€
 	public void stopAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.stop(); break;
