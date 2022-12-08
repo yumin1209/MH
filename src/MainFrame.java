@@ -22,7 +22,7 @@ public class MainFrame extends JFrame {
 		setContentPane(new MainPanel());
 		
 		setBounds(100, 100, 800, 600);
-		setLocationRelativeTo(null);//창이 가운데 나오게
+		setLocationRelativeTo(null); //창 위치 정중앙
 		
 		repaint();
 		setVisible(true);

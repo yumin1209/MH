@@ -37,7 +37,7 @@ public class GameFrame extends JFrame {
 		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
-		setLocationRelativeTo(null);//창이 가운데 나오게
+		setLocationRelativeTo(null); //창 위치 정중앙
 		
 		scorePanel = new ScorePanel();
 		monsterPanel = new MonsterPanel(name);
