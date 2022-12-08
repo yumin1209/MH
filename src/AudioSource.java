@@ -7,7 +7,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-//오디오를 송출하는 클래스
+// 오디오를 송출하는 클래스
+
 public class AudioSource {
 	private Clip bgmClip;
 	private Clip correctClip;
@@ -23,7 +24,7 @@ public class AudioSource {
 		gameoverClip = getClip("audio/gameover.wav");
 	}
 	
-	//음악 파일과 오디오 클립을 연결
+	// 쇨낵 ㅻ 대┰ 곌껐
 	private Clip getClip(String filePath) {
 		Clip clip=null;
 		try {
@@ -38,7 +39,7 @@ public class AudioSource {
 		return clip;
 	}
 	
-	//오디오 클립 재생
+	//ㅻ 대┰ ъ
 	public void playAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.setFramePosition(0); bgmClip.loop(Clip.LOOP_CONTINUOUSLY); break;
@@ -49,7 +50,7 @@ public class AudioSource {
 		}
 	}
 	
-	//오디오 클립 정지
+	//ㅻ 대┰ �吏
 	public void stopAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.stop(); break;
