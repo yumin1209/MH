@@ -23,9 +23,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-// 占쏙옙占쏙옙 占쏙옙체 占쏙옙占쏙옙占쏙옙
-// 占쌍삼옙占� 占쏙옙占쏙옙, 占쏙옙占쏙옙 占쏙옙占쏙옙 占싻놂옙, 占쏙옙占쏙옙 占싣뱄옙타 占싻놂옙 + 占쏙옙占쌘억옙 占싻널뤄옙 占쏙옙占쏙옙
-// 占쏙옙占쏙옙 占싻놂옙占쏙옙 占싣뱄옙타 占싻널곤옙 占쏙옙占쌘억옙 占싻놂옙占쏙옙 占쏙옙占쏙옙占쏙옙
+// 게임 전체 프레임
+// 최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
+// 게임 패널은 몬스터 패널과 스코어 패널을 관리함
 public class GameFrame extends JFrame {
 	private ScorePanel scorePanel;
 	private MonsterPanel monsterPanel;
@@ -49,7 +49,7 @@ public class GameFrame extends JFrame {
 		setVisible(true);
 	}
 	
-	//占쏙옙占쏙옙 占쌓띰옙占쏙옙 占싻널곤옙 占싣뱄옙타占싻놂옙, 占쏙옙占쌘억옙占싻놂옙占쏙옙 占쏙옙占쏙옙
+	//게임패널과 몬스터패널, 스코어패널을 나눔
 	private void makeSplitPane() {
 		JSplitPane hPane = new JSplitPane();
 		getContentPane().add(hPane, BorderLayout.CENTER);
@@ -66,18 +66,16 @@ public class GameFrame extends JFrame {
 		hPane.setRightComponent(pPane);
 	}
 	
-	// 占쏙옙占� 占쏙옙占쌕울옙占쏙옙 7占쏙옙占쏙옙 占쏙옙튼占쏙옙 占쏙옙占쏙옙 : 占쏙옙占쏙옙 占쏙옙占쏙옙/占쏙옙占쏙옙 , 占쏙옙占싱듸옙 占쏙옙占쏙옙, 占쌤억옙 占쏙옙占쏙옙 占쏙옙占쏙옙 
-	// 占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙, 占싣뱄옙타 占쏙옙占쏙옙, 占쌔쏙옙트 크占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙占쏙옙占� 占싼깍옙/占쏙옙占쏙옙
+	// 상단 툴바 : 게임시작/종료, 난이도 변경, 텍스트 크기 변경, 배경음악 켜기/끄기
 	private void makeToolBar() {
 		JToolBar tBar = new JToolBar();
 		getContentPane().add(tBar, BorderLayout.NORTH);
-		tBar.setFloatable(false); // 占쏙옙占쏙옙 占쏙옙占쏙옙
+		tBar.setFloatable(false); 
 		
 		JButton startBtn = new JButton("START");
 		startBtn.setBackground(Color.red);
 		tBar.add(startBtn);
 		startBtn.addActionListener(new StartAction());
-		// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 STOP->START 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占싻널곤옙 占쏙옙占쏙옙 占쏙옙튼占쏙옙 占쏙옙占쏙옙
 		gamePanel.linkStartBtn(startBtn); 
 		
 		JButton levelBtn = new JButton("EASY");
@@ -100,7 +98,7 @@ public class GameFrame extends JFrame {
 		bgmBtn.addActionListener(new BgmAction());
 	}
 	
-	//占쏙옙占쏙옙 占쏙옙占쏙옙
+	//게임 시작
 	private class StartAction implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			JButton thisBtn = (JButton)e.getSource();
@@ -115,7 +113,7 @@ public class GameFrame extends JFrame {
 		}
 	} 
 	
-	// 占쏙옙占싱듸옙 占쏙옙占쏙옙, 占쌤억옙 占쏙옙占싱븝옙占쏙옙 占쏙옙占쏙옙 占쌈듸옙占쏙옙 占쏙옙占쏙옙 占쌈듸옙占쏙옙 占쏙옙占쏙옙
+	// 난이도 선택, 단어 레이블의 낙하 속도와 생성 속도 조절
 	private class LevelAction implements ActionListener {
 		JButton levelBtn;
 		public void actionPerformed(ActionEvent e) {
@@ -177,20 +175,19 @@ public class GameFrame extends JFrame {
 		}
 	} 
 	
-	// 占쌤억옙 占쏙옙占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙 占쏙옙占싱억옙慣占� 占쏙옙占�
 	private class WordAction implements ActionListener {
 
-		public void actionPerformed(ActionEvent e) { // 占쏙옙占쏙옙 占쏙옙占싱억옙慣占� 占쏙옙占�, 占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙
+		public void actionPerformed(ActionEvent e) { // 파일 다이얼로그 사용, 파일 필터 적용
 			JFileChooser chooser = new JFileChooser("word");
 			FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt 파일", "txt");
 			chooser.setFileFilter(filter);
 			int ret = chooser.showOpenDialog(null);
 			if(ret == JFileChooser.APPROVE_OPTION) {
-				String pathName = chooser.getSelectedFile().getPath(); // 占쏙옙占쏙옙 占쏙옙罐占�
+				String pathName = chooser.getSelectedFile().getPath(); 
 				String fileName = chooser.getSelectedFile().getName();
 				gamePanel.textSource.changeFile(pathName);
 				JButton thisBtn = (JButton)e.getSource();
-				thisBtn.setText(fileName.split("\\.")[0]); // .txt 占쏙옙占쏙옙 占쏙옙 占쏙옙튼 占싱몌옙 占쏙옙占쏙옙
+				thisBtn.setText(fileName.split("\\.")[0]); //.txt 제거 후 버튼 이름 변경
 			}
 		}
 		
@@ -200,7 +197,7 @@ public class GameFrame extends JFrame {
 	
 	
 	
-	// 占쏙옙占쏙옙 크占쏙옙 占쏙옙占쏙옙, 占쏙옙占쏙옙占싱댐옙占쏙옙 占쏙옙占쏙옙
+	// 글자 크기 선택, 슬라이더로 조절
 	private class SizeAction implements ActionListener {
 		JButton thisBtn;
 		public void actionPerformed(ActionEvent e) {
@@ -216,7 +213,7 @@ public class GameFrame extends JFrame {
 				setSize(250,150);
 				setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 				
-				//占쏙옙占쏙옙 크占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占싱댐옙 占쏙옙占�
+				//글자 크기 조절을 위해 슬라이더 사용
 				JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 25, gamePanel.wordSize);
 				slider.setPaintLabels(true);
 				slider.setPaintTicks(true);
