@@ -12,7 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// �̸��� �Է� �ް� ������ �����ϴ� ���� ������
+// 이름을 입력 받고 게임을 시작하는 메인 프레임
 public class MainFrame extends JFrame {
 	
 	public MainFrame() {
@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 		
 		}
 		
-		// ��ư�� ������ �� �������� ���� �� �������� ����
+		// 버튼을 누르면 새 프레임을 열고 이 프레임은 종료
 		private class StartAction implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String name = textField.getText();
