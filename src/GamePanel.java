@@ -205,7 +205,7 @@ public class GamePanel extends JPanel {
 	
 	// 떨어지는 레이블이 보이는 패널
 	class GameGroundPanel extends JPanel {
-		ImageIcon bgIcon = new ImageIcon("image/background/space.jpg");
+		ImageIcon bgIcon = new ImageIcon("image/background/background.jpg");
 		Image bgImage = bgIcon.getImage();
 		
 		GameThread gameThread; // 레이블 생성 스레드
