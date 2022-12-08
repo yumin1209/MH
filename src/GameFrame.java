@@ -23,9 +23,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-// 게임 전체 프레임
-// 최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
-// 게임 패널은 몬스터 패널과 스코어 패널을 관리함
+
+//게임 전체 프레임
+//최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
+//게임 패널은 몬스터 패널과 스코어 패널을 관리함
 public class GameFrame extends JFrame {
 	private ScorePanel scorePanel;
 	private MonsterPanel monsterPanel;
@@ -36,8 +37,8 @@ public class GameFrame extends JFrame {
 		gameFrame = this;
 		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
-		setLocation(600,200);
+		setBounds(100, 100, 800, 600);
+		setLocationRelativeTo(null); //창 위치 정중앙
 		
 		scorePanel = new ScorePanel();
 		monsterPanel = new MonsterPanel(name);
@@ -70,7 +71,9 @@ public class GameFrame extends JFrame {
 	private void makeToolBar() {
 		JToolBar tBar = new JToolBar();
 		getContentPane().add(tBar, BorderLayout.NORTH);
-		tBar.setFloatable(false); 
+
+		tBar.setFloatable(false);
+
 		
 		JButton startBtn = new JButton("START");
 		startBtn.setBackground(Color.red);
@@ -175,6 +178,7 @@ public class GameFrame extends JFrame {
 		}
 	} 
 	
+  
 	private class WordAction implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) { // 파일 다이얼로그 사용, 파일 필터 적용

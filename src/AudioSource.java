@@ -24,7 +24,8 @@ public class AudioSource {
 		gameoverClip = getClip("audio/gameover.wav");
 	}
 	
-	// 쇨낵 ㅻ 대┰ 곌껐
+  
+	// 음악 파일과 오디오 클립을 연결
 	private Clip getClip(String filePath) {
 		Clip clip=null;
 		try {
@@ -39,7 +40,8 @@ public class AudioSource {
 		return clip;
 	}
 	
-	//ㅻ 대┰ ъ
+
+	// 오디오 클립 재생
 	public void playAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.setFramePosition(0); bgmClip.loop(Clip.LOOP_CONTINUOUSLY); break;
@@ -50,7 +52,8 @@ public class AudioSource {
 		}
 	}
 	
-	//ㅻ 대┰ �吏
+
+	// 오디오 클립 정지
 	public void stopAudio(String name) {
 		switch(name) {
 		case "bgm": bgmClip.stop(); break;

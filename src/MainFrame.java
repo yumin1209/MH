@@ -12,16 +12,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// 이름을 입력 받고 게임을 시작하는 메인 프레임
+
+//이름을 입력 받고 게임을 시작하는 메인 프레임
 public class MainFrame extends JFrame {
 	
 	public MainFrame() {
 		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
-		setLocation(600,200);
 		setResizable(false);
 		setContentPane(new MainPanel());
+		
+		setBounds(100, 100, 800, 600);
+		setLocationRelativeTo(null); //창 위치 정중앙
 		
 		repaint();
 		setVisible(true);

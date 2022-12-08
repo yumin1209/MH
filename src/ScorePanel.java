@@ -38,6 +38,7 @@ public class ScorePanel extends JPanel {
 		add(energyLabel);
 	}
 	
+
 	protected void changeScore(int score,int energy) {
 		this.score = score;
 		this.energy = energy;
@@ -48,6 +49,7 @@ public class ScorePanel extends JPanel {
 		repaint();
 	}
 	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);
