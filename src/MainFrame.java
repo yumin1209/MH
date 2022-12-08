@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 //이름을 입력 받고 게임을 시작하는 메인 프레임
 public class MainFrame extends JFrame {
 	

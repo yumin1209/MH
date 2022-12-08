@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 //게임 전체 프레임
 //최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
 //게임 패널은 몬스터 패널과 스코어 패널을 관리함
@@ -70,13 +71,14 @@ public class GameFrame extends JFrame {
 	private void makeToolBar() {
 		JToolBar tBar = new JToolBar();
 		getContentPane().add(tBar, BorderLayout.NORTH);
+
 		tBar.setFloatable(false);
+
 		
 		JButton startBtn = new JButton("START");
 		startBtn.setBackground(Color.red);
 		tBar.add(startBtn);
 		startBtn.addActionListener(new StartAction());
-		// 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 STOP->START 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙 占싻널곤옙 占쏙옙占쏙옙 占쏙옙튼占쏙옙 占쏙옙占쏙옙
 		gamePanel.linkStartBtn(startBtn); 
 		
 		JButton levelBtn = new JButton("EASY");
@@ -176,7 +178,7 @@ public class GameFrame extends JFrame {
 		}
 	} 
 	
-
+  
 	private class WordAction implements ActionListener {
 
 		public void actionPerformed(ActionEvent e) { // 파일 다이얼로그 사용, 파일 필터 적용
