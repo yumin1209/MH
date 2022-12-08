@@ -8,6 +8,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 // 오디오를 송출하는 클래스
+//try try
 public class AudioSource {
 	private Clip bgmClip;
 	private Clip correctClip;
