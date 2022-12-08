@@ -6,9 +6,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-//ÀÌ ÆÐ³Î¿¡¼­´Â Ã¼·Â°ú Á¡¼ö¸¦ º¸¿©ÁÜ
+//ï¿½ï¿½ ï¿½Ð³Î¿ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Â°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class ScorePanel extends JPanel {
-	ImageIcon bgIcon = new ImageIcon("image/background/cockpit.jpg");
+	ImageIcon bgIcon = new ImageIcon("image/background/user.png");
 	Image bgImage = bgIcon.getImage();
 	
 	private int score = 0;
@@ -38,7 +38,7 @@ public class ScorePanel extends JPanel {
 		add(energyLabel);
 	}
 	
-	// ¿ÜºÎ¿¡¼­ ÀÌ ÆÐ³ÎÀÇ Á¡¼ö¿Í Ã¼·ÂÀ» °»½ÅÇÔ
+	// ï¿½ÜºÎ¿ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	protected void changeScore(int score,int energy) {
 		this.score = score;
 		this.energy = energy;
@@ -49,7 +49,7 @@ public class ScorePanel extends JPanel {
 		repaint();
 	}
 	
-	// ÀÌ ÆÐ³ÎÀÇ ¹è°æ, Á¡¼ö¿Í Ã¼·Â¹Ù ±×¸®±â
+	// ï¿½ï¿½ ï¿½Ð³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ã¼ï¿½Â¹ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);

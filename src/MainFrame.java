@@ -12,11 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-// ÀÌ¸§À» ÀÔ·Â ¹Þ°í °ÔÀÓÀ» ½ÃÀÛÇÏ´Â ¸ÞÀÎ ÇÁ·¹ÀÓ
+// ï¿½Ì¸ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ ï¿½Þ°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 public class MainFrame extends JFrame {
 	
 	public MainFrame() {
-		setTitle("Endless Typing");
+		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLocation(600,200);
@@ -28,7 +28,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	private class MainPanel extends JPanel {
-		ImageIcon icon = new ImageIcon("image/background/main.png");
+		ImageIcon icon = new ImageIcon("image/background/main.jpg");
 		Image image = icon.getImage();
 		JTextField textField;
 		
@@ -60,11 +60,11 @@ public class MainFrame extends JFrame {
 		
 		}
 		
-		// ¹öÆ°À» ´©¸£¸é »õ ÇÁ·¹ÀÓÀ» ¿­°í ÀÌ ÇÁ·¹ÀÓÀº Á¾·á
+		// ï¿½ï¿½Æ°ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		private class StartAction implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String name = textField.getText();
-				GameApp.run(name);
+				MonsterHunter.run(name);
 				dispose();
 			}
 		}

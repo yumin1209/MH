@@ -28,20 +28,20 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 // 占쏙옙占쏙옙 占싻놂옙占쏙옙 占싣뱄옙타 占싻널곤옙 占쏙옙占쌘억옙 占싻놂옙占쏙옙 占쏙옙占쏙옙占쏙옙
 public class GameFrame extends JFrame {
 	private ScorePanel scorePanel;
-	private AvatarPanel avatarPanel;
+	private MonsterPanel monsterPanel;
 	private GamePanel gamePanel;
 	private GameFrame gameFrame;
 	
 	public GameFrame(String name) {
 		gameFrame = this;
-		setTitle("Endless Typing");
+		setTitle("Monster Hunter");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(800, 600);
 		setLocation(600,200);
 		
 		scorePanel = new ScorePanel();
-		avatarPanel = new AvatarPanel(name);
-		gamePanel = new GamePanel(avatarPanel, scorePanel);
+		monsterPanel = new MonsterPanel(name);
+		gamePanel = new GamePanel(monsterPanel, scorePanel);
 		
 		makeSplitPane();
 		makeToolBar();
@@ -61,7 +61,7 @@ public class GameFrame extends JFrame {
 		JSplitPane pPane = new JSplitPane();
 		pPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		pPane.setDividerLocation(200);
-		pPane.setTopComponent(avatarPanel);
+		pPane.setTopComponent(monsterPanel);
 		pPane.setBottomComponent(scorePanel);
 		hPane.setRightComponent(pPane);
 	}

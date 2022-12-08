@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 // 이 패널에서는 아바타 이미지를 출력함
 // 디렉토리 별로 아바타의 표정 5개에 해당하는 사진을 저장
 // File 객체로 읽어서 벡터에 저장 후 상황에 맞게 출력함
-public class AvatarPanel extends JPanel {
+public class MonsterPanel extends JPanel {
 	Vector<Image> imageVector = new Vector<>(); // 아바타 이미지들을 담는 벡터
 	String filePath = null;
 	File imageDir = null;
@@ -25,7 +25,7 @@ public class AvatarPanel extends JPanel {
 	ExpressionThread expressionThread = null;
 	protected String name = null;
 	
-	public AvatarPanel(String name) {
+	public MonsterPanel(String name) {
 		this.name = name;
 		setLayout(null);
 		

@@ -21,7 +21,7 @@ import javax.swing.JTextField;
 
 public class GamePanel extends JPanel {
 	private JTextField input = new JTextField(40);
-	private AvatarPanel avatarPanel;
+	private MonsterPanel monsterPanel;
 	private ScorePanel scorePanel;
 	protected GameGroundPanel gameGroundPanel;
 	private int score; // 점수
@@ -78,7 +78,7 @@ public class GamePanel extends JPanel {
 				energy-=10;
 				scorePanel.changeScore(score, energy);
 				if(energy<50) 
-					avatarPanel.changeExpression("danger");
+					monsterPanel.changeExpression("danger");
 				if(energy<=0) gameOver();
 				wordLabelVector.remove(thisLabel);
 				gameGroundPanel.remove(thisLabel);
@@ -88,9 +88,9 @@ public class GamePanel extends JPanel {
 	}
 	
 	
-	public GamePanel(AvatarPanel avatarPanel, ScorePanel scorePanel) {
+	public GamePanel(MonsterPanel monsterPanel, ScorePanel scorePanel) {
 		this.scorePanel = scorePanel;
-		this.avatarPanel = avatarPanel;
+		this.monsterPanel = monsterPanel;
 		score = 0;
 		energy = 100;
 		setLayout(new BorderLayout());
@@ -118,8 +118,8 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.repaint();
 		gameGroundPanel.start();
 		input.requestFocus();
-		avatarPanel.changeExpression("reset");
-		avatarPanel.changeExpression("normal");
+		monsterPanel.changeExpression("reset");
+		monsterPanel.changeExpression("normal");
 		score = 0;
 		energy = 100;
 		scorePanel.changeScore(score, energy);
@@ -128,12 +128,12 @@ public class GamePanel extends JPanel {
 	
 	//게임 오버
 	public void gameOver() {
-		avatarPanel.changeExpression("gameover");
+		monsterPanel.changeExpression("gameover");
 		gameGroundPanel.end();
 		gameGroundPanel.repaint();
 		startBtn.setText("START");
 		
-		userRanking.saveRanking(avatarPanel.name, score);
+		userRanking.saveRanking(monsterPanel.name, score);
 		
 		audioSource.playAudio("gameover");
 		GameOverDialog dialog = new GameOverDialog((JFrame)getTopLevelAncestor(), "GAME OVER");
@@ -156,7 +156,7 @@ public class GamePanel extends JPanel {
 			label.setLocation(40,20);
 			add(label);
 			
-			label = new JLabel(avatarPanel.name+" : "+score);
+			label = new JLabel(monsterPanel.name+" : "+score);
 			label.setForeground(Color.green);
 			label.setFont(new Font("GOTHIC",Font.BOLD,30));
 			label.setSize(200,40);
@@ -290,8 +290,8 @@ public class GamePanel extends JPanel {
 							energy+=5;
 						scorePanel.changeScore(score, energy);
 						if(energy>=50) 
-							avatarPanel.changeExpression("normal"); // 체력이 높으면 정상 표정
-						avatarPanel.changeExpression("correct"); // 성공 시 표정
+							monsterPanel.changeExpression("normal"); // 체력이 높으면 정상 표정
+						monsterPanel.changeExpression("correct"); // 성공 시 표정
 						
 						audioSource.playAudio("correct");
 					}
@@ -303,8 +303,8 @@ public class GamePanel extends JPanel {
 							return;
 						}
 						if(energy<50) 
-							avatarPanel.changeExpression("danger"); // 체력이 낮으면 위험 표정
-						avatarPanel.changeExpression("wrong"); // 실패 시 표정
+							monsterPanel.changeExpression("danger"); // 체력이 낮으면 위험 표정
+						monsterPanel.changeExpression("wrong"); // 실패 시 표정
 						
 						
 						audioSource.playAudio("wrong");
