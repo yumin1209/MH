@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.AudioSystem;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,8 +13,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-//이름을 입력 받고 게임을 시작하는 메인 프레임
 public class MainFrame extends JFrame {
+	private ImageIcon icon = new ImageIcon("image/background/main.jpg");
+	private Image image = icon.getImage();
+	private JTextField textField;
+	private JButton btnStart;
 	
 	public MainFrame() {
 		setTitle("Monster Hunter");
@@ -29,46 +33,42 @@ public class MainFrame extends JFrame {
 	}
 	
 	private class MainPanel extends JPanel {
-		ImageIcon icon = new ImageIcon("image/background/main.jpg");
-		Image image = icon.getImage();
-		JTextField textField;
-		
 		public MainPanel() {
 			setLayout(null);
 		
 			JLabel label = new JLabel("ID");
-			label.setSize(60,40);
+			label.setBounds(280,360, 60, 40);
 			label.setFont(new Font("GOTHIC",Font.BOLD,20));
-			label.setLocation(280,360);
-			label.setForeground(Color.green);
+			label.setForeground(Color.WHITE);
 			add(label);
 			
-			textField = new JTextField("GUEST");
-			textField.setSize(170,40);
-			textField.setLocation(310,360);
+			// 사용자 ID 입력받음
+			textField = new JTextField("");
+			textField.setBounds(310,360,170,40);
 			textField.setHorizontalAlignment(JTextField.CENTER);
-			textField.setForeground(Color.green);
+			textField.setForeground(Color.WHITE);
 			textField.setBackground(Color.black);
 			add(textField);
 			
-			JButton startBtn = new JButton("START");
-			startBtn.setSize(80,20);
-			startBtn.setLocation(350,420);
-			startBtn.setForeground(Color.green);
-			startBtn.setBackground(Color.black);
-			startBtn.addActionListener(new StartAction());
-			add(startBtn);
+			//시작 버튼
+			btnStart = new JButton("START");
+			btnStart.setBounds(350,420,80,20);
+			btnStart.setForeground(Color.WHITE);
+			btnStart.setBackground(Color.black);
+			btnStart.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String name = textField.getText(); 
+					//게임 시작하면 GameFrame 시작
+					System.out.println("---시작 버튼 누름");
+					new GameFrame(name);
+					dispose(); //창 사라짐
+				}
+			});
+			add(btnStart);
 		
 		}
 		
-		// 버튼을 누르면 새 프레임을 열고 이 프레임은 종료
-		private class StartAction implements ActionListener {
-			public void actionPerformed(ActionEvent e) {
-				String name = textField.getText();
-				MonsterHunter.run(name);
-				dispose();
-			}
-		}
+		//배경 이미지
 		public void paintComponent(Graphics g) {
 			super.paintComponents(g);
 			g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
