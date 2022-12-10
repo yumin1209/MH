@@ -23,7 +23,6 @@ import javax.swing.JTextField;
 
 
 //게임 패널은 몬스터 패널과 스코어 패널을 관리함
-
 public class GamePanel extends JPanel {
 	private JTextField inputText = new JTextField(30);
 	private MonsterPanel monsterPanel;
@@ -35,12 +34,6 @@ public class GamePanel extends JPanel {
 	private int fallDelay = 500; // 낙하 딜레이score
 	private int createDelay = 3000; // 생성 딜레이
 	
-	private Clip clip; //배경 음악
-	private Clip btnClip; 
-	private Clip correctClip;
-	private Clip wrongClip;
-	private Clip gameoverClip;
-	
 	
 	// 게임 오버시 다시 시작하도록 start
 	private JButton btnStart = null;
@@ -49,7 +42,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	private UserRanking userRanking = new UserRanking(); // 유저 랭킹 벡터 생성 
-	
+	protected AudioSource audioSource = new AudioSource(); // 오디오 클립 생성
 	protected Word textWord = new Word(); // 단어장 벡터 생성
 	private Vector<WordLabel> wordLabelVector = new Vector<>(); // 단어 벡터
 	
@@ -58,13 +51,12 @@ public class GamePanel extends JPanel {
 		protected int y;
 		private WordLabel thisLabel = null;
 		private WordThread th = null;
-		protected boolean blindLabel = false;
 		
 		public WordLabel(String word) {
 			super(word);
 			x = (int)(Math.random()*(gameGroundPanel.getWidth()-(textSize*5+40)));
 			y = 0;
-			setForeground(Color.WHITE);
+			setForeground(Color.GREEN);
 			setFont(new Font("GOTHIC",Font.PLAIN,textSize));
 			setSize(300,50);
 			
@@ -79,15 +71,11 @@ public class GamePanel extends JPanel {
 				while(true) {
 					y+=5;
 					setLocation(x,y);
-					try {
-						sleep(fallDelay);
-					}catch (InterruptedException e){
-						return;
-					}
+					try {sleep(fallDelay);} catch (InterruptedException e) {return;}
 					if(y>=gameGroundPanel.getHeight()-20) //바닥에 닿으면 멈춤
 						break;
 				}
-				life-=10; //10씩 생명이 깎임
+				life-=5; //5씩 생명이 깎임
 				scorePanel.changeScore(score, life);
 				if(life<50) 
 					monsterPanel.changeExpression("danger"); //괴물의 표정이 바뀜
@@ -111,8 +99,7 @@ public class GamePanel extends JPanel {
 		add(new InputPanel(), BorderLayout.SOUTH);  
 		
 		//음향 시작
-		loadAudio();
-		playAudio("bgm");
+		audioSource.playAudio("bgm");
 	}
 	
 	//게임 난이도 변경 적용
@@ -122,7 +109,7 @@ public class GamePanel extends JPanel {
 	}
 	
 	//글자 크기 변경 적용
-	protected void setWordSize(int pt) {
+	protected void settextSize(int pt) {
 		this.textSize = pt;
 	}
 	
@@ -137,7 +124,7 @@ public class GamePanel extends JPanel {
 		score = 0;
 		life = 100;
 		scorePanel.changeScore(score, life);
-		//playAudio("button"); //효과음
+		audioSource.playAudio("button");
 	}
 	
 	//게임 종료
@@ -148,9 +135,9 @@ public class GamePanel extends JPanel {
 		btnStart.setText("START");
 		
 		//랭킹 저장
-		userRanking.saveRanking(monsterPanel.name, score);
+		userRanking.saveRanking(scorePanel.name, score);
 		
-		//playAudio("gameover"); //효과음
+		audioSource.playAudio("gameover");
 		
 		//게임 종료창과 함께 랭킹 보여줌
 		GameOverDialog dialog = new GameOverDialog((JFrame)getTopLevelAncestor(), "GAME OVER");
@@ -158,33 +145,33 @@ public class GamePanel extends JPanel {
 		dialog.setVisible(true);
 	}
 	
-	//주석 수정 해야행
+	
 	//게임 오버시 점수 및 랭킹 출력 다이얼로그
 	private class GameOverDialog extends JDialog {
 		private GameOverDialog(JFrame frame, String title) {
 			super(frame, title, false);
-			setBounds(770,270, 340,390);
+			setBounds(770, 270, 340, 390);
 			setLayout(null);
 			
 			JLabel label = new JLabel("GAME OVER");
 			label.setForeground(Color.WHITE);
 			label.setFont(new Font("GOTHIC",Font.BOLD,40));
-			setBounds(40,20,300,40);
+			setBounds(40, 20, 300, 40);
 			add(label);
 			
-			label = new JLabel(monsterPanel.name+" : "+score);
+			label = new JLabel(scorePanel.name+" : "+score);
 			label.setForeground(Color.WHITE);
 			label.setFont(new Font("GOTHIC",Font.BOLD,30));
-			setBounds(70,60,200,40);
+			setBounds(70, 60, 200, 40);
 			add(label);
 			
 			for(int i=0;i<10;i++) {
-				String username = userRanking.getUser(i).name;
+				String name = userRanking.getUser(i).name;
 				int score = userRanking.getUser(i).score;
 				if(i!=9)
-					label = new JLabel(i+1+".   "+username+" "+score);
+					label = new JLabel(i+1+".   "+name+" "+score);
 				else
-					label = new JLabel(i+1+". "+username+" "+score);
+					label = new JLabel(i+1+". "+name+" "+score);
 				label.setForeground(Color.WHITE);
 				label.setFont(new Font("GOTHIC",Font.BOLD,20));
 				label.setSize(200,20);
@@ -193,7 +180,7 @@ public class GamePanel extends JPanel {
 			}
 			
 			JButton btnCheck = new JButton("확인");
-			btnCheck.setBounds(130,320,60,20);
+			btnCheck.setBounds(130, 320, 60, 20);
 			add(btnCheck);
 			
 			btnCheck.addActionListener(new GameOverDialogAction());
@@ -212,10 +199,8 @@ public class GamePanel extends JPanel {
 	public void gameStop() {
 		gameGroundPanel.end();
 		gameGroundPanel.repaint();
-		//playAudio("button");
+		audioSource.playAudio("button");
 	}
-	
-	
 	
 	//단어가 떨어지는 패널
 	class GameGroundPanel extends JPanel {
@@ -261,6 +246,10 @@ public class GamePanel extends JPanel {
 		public void paintComponent(Graphics g) {
 			super.paintComponent(g);
 			g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);
+			if(btnStart.getText().equals("START")) {
+				g.setColor(Color.green);
+				g.drawString("게임을 플레이하려면 START 버튼을 누르세요", 20, 30);
+			}
 		}
 	}
 	
@@ -303,78 +292,25 @@ public class GamePanel extends JPanel {
 							monsterPanel.changeExpression("normal"); 
 						monsterPanel.changeExpression("correct");
 						
-						//playAudio("correct"); //효과음
-						//correctClip.start();
-						//correctClip.setFramePosition(0);
+						audioSource.playAudio("correct");
 					}
 					else { //틀리면 생명 감소
-						life-=10;
+						life-=5;
 						scorePanel.changeScore(score, life);
 						if(life<=0) {
 							gameOver();
 							return;
 						}
 						if(life<50) 
-							monsterPanel.changeExpression("danger"); 
-						monsterPanel.changeExpression("wrong"); 
+							monsterPanel.changeExpression("danger"); // 체력이 낮으면 위험 표정
+						monsterPanel.changeExpression("wrong"); // 실패 시 표정
 						
-						//playAudio("wrong");  //효과음
+						audioSource.playAudio("wrong");
 					}
-					input.setText(""); //입력칸 초기화
+					input.setText(""); //입력창 초기화
 				}
 			}
 		}
 	}
-	//음향
-	private void loadAudio() {
-		try {
-			clip = AudioSystem.getClip();
-			File audioFile1 = new File("audio/game4.wav");
-			AudioInputStream audioStream1 = AudioSystem.getAudioInputStream(audioFile1);
-			clip.open(audioStream1);
-			
-			btnClip = AudioSystem.getClip();
-			File audioFile2 = new File("audio/btn.wav");
-			AudioInputStream audioStream2 = AudioSystem.getAudioInputStream(audioFile2);
-			btnClip.open(audioStream2);
-			
-			correctClip = AudioSystem.getClip();
-			File audioFile3 = new File("audio/correct.wav");
-			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(audioFile2);
-			btnClip.open(audioStream3);
-			
-			wrongClip = AudioSystem.getClip();
-			File audioFile4 = new File("audio/incorrect.wav");
-			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(audioFile2);
-			btnClip.open(audioStream4);
-			
-			gameoverClip = AudioSystem.getClip();
-			File audioFile5 = new File("audio/gameover.wav");
-			AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(audioFile2);
-			btnClip.open(audioStream5);
-			
-		} catch (Exception e) {
-			return;
-		}
-	}
-	
-	//음향 재생
-	public void playAudio(String name) {
-		switch(name) {
-		case "bgm": clip.loop(Clip.LOOP_CONTINUOUSLY); break;
-		case "correct": correctClip.setFramePosition(0); correctClip.start(); break;
-		case "wrong": wrongClip.setFramePosition(0); wrongClip.start(); break;
-		case "button": btnClip.setFramePosition(0); btnClip.start(); break;
-		case "gameover": gameoverClip.setFramePosition(0); gameoverClip.start(); break;
-		}
-	}
-		
-	//음향 중지
-	public void stopAudio(String name) {
-		switch(name) {
-		case "bgm": clip.stop(); break;
-		}
-	}
-	
 	
 }

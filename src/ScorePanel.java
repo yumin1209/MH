@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -12,40 +13,49 @@ public class ScorePanel extends JPanel {
 	Image bgImage = bgIcon.getImage();
 	
 	private int score = 0;
-	private int energy = 100;
+	private int life = 100;
+	protected String name = null;
 	
 	private JLabel scoreLabel = new JLabel(Integer.toString(score));
-	JLabel energyLabel = new JLabel("ENERGY ("+energy+"/100)");
+	private JLabel lifeLabel = new JLabel("LIFE ("+life+"/100)");
+	private JLabel textLabel;
+	private JLabel nameLabel;
 	
-	public ScorePanel() {
+	public ScorePanel(String name) {
 		this.setBackground(Color.BLACK);
+		this.name = name;
 		setLayout(null);
 		
-		JLabel textLabel = new JLabel("SCORE");
-		textLabel.setSize(50, 20);
-		textLabel.setLocation(10, 10);
+		nameLabel = new JLabel(name);
+		nameLabel.setOpaque(true);
+		nameLabel.setBackground(Color.BLACK);
+		nameLabel.setForeground(Color.GREEN);
+		nameLabel.setFont(new Font("GOTHIC",Font.BOLD,15));
+		nameLabel.setBounds(25, 270, 120, 20);
+		nameLabel.setHorizontalAlignment(JLabel.CENTER);
+		add(nameLabel);
+		
+		textLabel = new JLabel("SCORE");
+		textLabel.setBounds(10, 10, 50, 20);
 		textLabel.setForeground(Color.green);
 		add(textLabel);
 		
-		scoreLabel.setSize(100, 20);
-		scoreLabel.setLocation(70, 10);
+		scoreLabel.setBounds(70, 10, 100, 20);
 		scoreLabel.setForeground(Color.green);
 		add(scoreLabel);
 		
-		energyLabel.setSize(120, 20);
-		energyLabel.setLocation(10, 60);
-		energyLabel.setForeground(Color.green);
-		add(energyLabel);
+		lifeLabel.setBounds(10, 60, 120, 20);
+		lifeLabel.setForeground(Color.green);
+		add(lifeLabel);
 	}
 	
-
-	protected void changeScore(int score,int energy) {
+	protected void changeScore(int score,int life) {
 		this.score = score;
-		this.energy = energy;
-		if(energy<0)
-			energy=0;
+		this.life = life;
+		if(life<0)
+			life=0;
 		scoreLabel.setText(Integer.toString(score));
-		energyLabel.setText("ENERGY ("+energy+"/100)");
+		lifeLabel.setText("LIFE ("+life+"/100)");
 		repaint();
 	}
 	
@@ -56,7 +66,11 @@ public class ScorePanel extends JPanel {
 		g.setColor(Color.red);
 		g.drawRect(10, 35, 150, 20);
 		g.setColor(Color.green);
-		int width = (int)(149*((double)energy/100));
+		if(life<=50)
+			g.setColor(Color.yellow);
+		if(life<=30)
+			g.setColor(Color.red);
+		int width = (int)(149*((double)life/100));
 		g.fillRect(11, 36, width, 19);
 	}
 }

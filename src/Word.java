@@ -10,6 +10,7 @@ public class Word {
 	private Vector<String> v = new Vector<String>();
 	
 	public Word() { 
+		v.clear(); // 벡터를 한번 지움
 		Scanner sc;
 		try {
 			sc = new Scanner(new FileInputStream("word/word.txt"), "utf-8");
