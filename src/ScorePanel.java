@@ -49,7 +49,6 @@ public class ScorePanel extends JPanel {
 		add(lifeLabel);
 	}
 	
-	
 	protected void changeScore(int score,int life) {
 		this.score = score;
 		this.life = life;
@@ -60,7 +59,7 @@ public class ScorePanel extends JPanel {
 		repaint();
 	}
 	
-	
+
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);

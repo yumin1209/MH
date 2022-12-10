@@ -28,6 +28,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+
 //최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
 public class GameFrame extends JFrame {
 	private ScorePanel scorePanel;
@@ -79,7 +80,9 @@ public class GameFrame extends JFrame {
 	private void makeToolBar() {
 		JToolBar tBar = new JToolBar();
 		getContentPane().add(tBar, BorderLayout.NORTH);
+
 		tBar.setFloatable(false);
+
 		
 		//게임 시작 버튼
 		btnStart = new JButton("START");
@@ -98,6 +101,7 @@ public class GameFrame extends JFrame {
 					thisBtn.setText("START");
 					thisBtn.setBackground(Color.green);
 				}
+
 			}
 		});
 		// 게임 오버시 다시 시작하도록 연결
@@ -151,8 +155,6 @@ public class GameFrame extends JFrame {
 					btnBgm.setForeground(Color.red);
 				}
 			}
-		} );
-	}
 
 	//단어 가져오기
 	private class WordAction implements ActionListener {
