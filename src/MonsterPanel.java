@@ -17,35 +17,21 @@ import javax.swing.JTextField;
 // 디렉토리 별로 아바타의 표정 5개에 해당하는 사진을 저장
 // File 객체로 읽어서 벡터에 저장 후 상황에 맞게 출력함
 public class MonsterPanel extends JPanel {
-	Vector<Image> imageVector = new Vector<>(); // 아바타 이미지들을 담는 벡터
+	Vector<Image> imageVector = new Vector<>(); //몬스터 이미지들을 담는 벡터
 	String filePath = null;
 	File imageDir = null;
 	File[] imageFiles = null;
 	Image currentImage = null;
 	ExpressionThread expressionThread = null;
-	protected String name = null;
 	
-	public MonsterPanel(String name) {
-		this.name = name;
-		setLayout(null);
-		
-		JLabel nameLabel = new JLabel(name);
-		nameLabel.setOpaque(true);
-		nameLabel.setBackground(Color.BLACK);
-		nameLabel.setForeground(Color.GREEN);
-		nameLabel.setFont(new Font("GOTHIC",Font.BOLD,15));
-		nameLabel.setSize(120,20);
-		nameLabel.setLocation(25,170);
-		nameLabel.setHorizontalAlignment(JLabel.CENTER);
-		add(nameLabel);
+	public MonsterPanel() {
 		
 		setMonster("monster");
-		currentImage = imageVector.get(3);
+		currentImage = imageVector.get(1);
 		expressionThread = new ExpressionThread();
 		expressionThread.start();
 	}
 	
-	// 아바타를 변경, 외부에서 호출
 	protected void setMonster(String text) {
 		if(text.equals("monster")) {
 			filePath = "image/monster";
@@ -62,24 +48,20 @@ public class MonsterPanel extends JPanel {
 	}
 	
 	// 표정을 변경, 벡터에서 파일명 알파벳 순서에 의해 정해진 표정의 인덱스는 다음과 같음
-	// 0:correct, 1:danger, 2:gameover, 3:normal, 4:wrong
+	// 0:correct, 1:normal, 2:wrong
 	public void changeExpression(String text) {
 		switch(text) {
-			case "normal" : expressionThread.danger = false; break;
-			case "danger" : expressionThread.danger = true; break;
-			case "gameover" : expressionThread.gameover = true; break;
-			case "reset" : expressionThread.gameover = false; break;
-			case "correct" : expressionThread.correct = true; break;
-			case "wrong" : expressionThread.wrong = true; break;
+		case "correct" : expressionThread.correct = true; break;
+		case "normal" : expressionThread.normal = true; break;
+		case "wrong" : expressionThread.wrong = true; break;
 		}
 	}
 	
 	//맞추거나 틀린 표정의 경우 0.5초만 띄움
 	private class ExpressionThread extends Thread {
 		protected boolean correct = false;
+		protected boolean normal = false;
 		protected boolean wrong = false;
-		protected boolean danger = false;
-		protected boolean gameover = false;
 		
 		public void run() {
 			while(true) {
@@ -90,19 +72,14 @@ public class MonsterPanel extends JPanel {
 					correct=false;
 				}
 				else if(wrong==true) {
-					currentImage = imageVector.get(4);
+					currentImage = imageVector.get(2);
 					repaint();
 					try {sleep(500);} catch (InterruptedException e) {return;}
 					wrong=false;
 				}
 				
-				if(imageVector.size()==5) { // 이미지 로딩이 됐을때
-					if(gameover==true)
-						currentImage = imageVector.get(2);
-					else if(danger==true)
-						currentImage = imageVector.get(1);
-					else // normal
-						currentImage = imageVector.get(3);
+				if(imageVector.size()==3) { // 이미지 로딩이 됐을때
+					currentImage = imageVector.get(1);
 					repaint();
 				}
 				
