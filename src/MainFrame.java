@@ -33,6 +33,7 @@ public class MainFrame extends JFrame {
 	}
 	
 	private class MainPanel extends JPanel {
+		
 		public MainPanel() {
 			setLayout(null);
 		
@@ -59,7 +60,6 @@ public class MainFrame extends JFrame {
 				public void actionPerformed(ActionEvent e) {
 					String name = textField.getText(); 
 					//게임 시작하면 GameFrame 시작
-					System.out.println("---시작 버튼 누름");
 					new GameFrame(name);
 					dispose(); //창 사라짐
 				}

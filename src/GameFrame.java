@@ -48,8 +48,8 @@ public class GameFrame extends JFrame {
 		setBounds(100, 100, 800, 600);
 		setLocationRelativeTo(null); //창 위치 정중앙
 		
-		scorePanel = new ScorePanel();
-		monsterPanel = new MonsterPanel(name);
+		scorePanel = new ScorePanel(name);
+		monsterPanel = new MonsterPanel();
 		gamePanel = new GamePanel(monsterPanel, scorePanel);
 		
 		makeSplitPane();
@@ -83,7 +83,7 @@ public class GameFrame extends JFrame {
 		
 		//게임 시작 버튼
 		btnStart = new JButton("START");
-		btnStart.setBackground(Color.red);
+		btnStart.setBackground(Color.green);
 		tBar.add(btnStart);
 		btnStart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
@@ -91,10 +91,12 @@ public class GameFrame extends JFrame {
 				if(thisBtn.getText().equals("START")) {
 					gamePanel.startGame();
 					thisBtn.setText("STOP");
+					thisBtn.setBackground(Color.red);
 				}
 				else {
 					gamePanel.gameStop();
 					thisBtn.setText("START");
+					thisBtn.setBackground(Color.green);
 				}
 			}
 		});
@@ -131,21 +133,22 @@ public class GameFrame extends JFrame {
 		
 		//배경 음악 버튼
 		btnBgm = new JButton("MUSIC OFF");
-		btnBgm.setForeground(Color.WHITE);
+		btnBgm.setForeground(Color.red);
+		
 		btnBgm.setBackground(Color.BLACK);
 		tBar.add(btnBgm);
 		btnBgm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				btnBgm = (JButton)e.getSource();
 				if(btnBgm.getText().equals("MUSIC OFF")) {
-					gamePanel.stopAudio("bgm"); //음악 끄기
+					gamePanel.audioSource.stopAudio("bgm"); //음악 끄기
 					btnBgm.setText("MUSIC ON");
 					btnBgm.setForeground(Color.GREEN);
 				}
 				else {
-					gamePanel.playAudio("bgm"); //음악 켜기
+					gamePanel.audioSource.playAudio("bgm"); //음악 켜기
 					btnBgm.setText("MUSIC OFF"); 
-					btnBgm.setForeground(Color.WHITE);
+					btnBgm.setForeground(Color.red);
 				}
 			}
 		} );
@@ -195,7 +198,7 @@ public class GameFrame extends JFrame {
 			slider.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
 					int pt = slider.getValue();
-					gamePanel.setWordSize(pt);
+					gamePanel.settextSize(pt);
 					btnSize.setText("SIZE : "+ pt +"pt");
 				}
 			});
@@ -211,7 +214,7 @@ public class GameFrame extends JFrame {
 			
 			btnEasy = new JButton("EASY");
 			btnEasy.setBackground(Color.BLACK);
-			btnEasy.setForeground(Color.WHITE);
+			btnEasy.setForeground(Color.green);
 			add(btnEasy);
 			btnEasy.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
