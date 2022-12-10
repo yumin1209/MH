@@ -150,7 +150,7 @@ public class GamePanel extends JPanel {
 	private class GameOverDialog extends JDialog {
 		private GameOverDialog(JFrame frame, String title) {
 			super(frame, title, false);
-			setBounds(770, 270, 340, 390);
+			setBounds(520, 250, 340, 390);
 			setLayout(null);
 			
 			JLabel label = new JLabel("GAME OVER");
