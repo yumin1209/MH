@@ -13,7 +13,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 public class MainFrame extends JFrame {
 	private ImageIcon icon = new ImageIcon("image/background/main.jpg");
 	private Image image = icon.getImage();
