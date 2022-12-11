@@ -29,18 +29,14 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 
-//최상단 툴바, 좌측 게임 패널, 우측 몬스터 패널 + 스코어 패널로 구성
 public class GameFrame extends JFrame {
 	private ScorePanel scorePanel;
 	private MonsterPanel monsterPanel;
 	private GamePanel gamePanel;
 	private GameFrame gameFrame;
 	
-	private JDialog FontDialog;
-	private JDialog LevelDialog;
-	
-	private JButton btnStart, btnLevel, btnSize, btnBgm, btnEasy, btnNormal, btnHard;
-	
+	private JToolBar toolbar;
+	private JButton btnStart, btnLevel, btnSize, btnBgm, btnEasy, btnNormal, btnHard, btnApply;
 	
 	public GameFrame(String name) {
 		gameFrame = this;
@@ -48,60 +44,53 @@ public class GameFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		setLocationRelativeTo(null); //창 위치 정중앙
-		
-		scorePanel = new ScorePanel(name);
+
 		monsterPanel = new MonsterPanel();
+		scorePanel = new ScorePanel(name);
 		gamePanel = new GamePanel(monsterPanel, scorePanel);
 		
-		makeSplitPane();
-		makeToolBar();
-		setResizable(false);
-		setVisible(true);
-	}
-	
-	//게임패널과 몬스터패널, 스코어패널을 나눔
-	private void makeSplitPane() {
+		createToolBar();
+		
 		JSplitPane hPane = new JSplitPane();
 		getContentPane().add(hPane, BorderLayout.CENTER);
 		hPane.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
 		hPane.setDividerLocation(600);
 		hPane.setEnabled(false);
-		hPane.setLeftComponent(gamePanel);
+		hPane.setLeftComponent(gamePanel); //게임 패널
 		
 		JSplitPane pPane = new JSplitPane();
 		pPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		pPane.setDividerLocation(200);
-		pPane.setTopComponent(monsterPanel);
-		pPane.setBottomComponent(scorePanel);
+		pPane.setTopComponent(monsterPanel); //monster 패널
+		pPane.setBottomComponent(scorePanel); //점수 패널
 		hPane.setRightComponent(pPane);
+		
+		setResizable(false);
+		setVisible(true);
 	}
 	
 	//툴바
-	private void makeToolBar() {
-		JToolBar tBar = new JToolBar();
-		getContentPane().add(tBar, BorderLayout.NORTH);
-
-		tBar.setFloatable(false);
-
+	private void createToolBar() {
+		toolbar = new JToolBar();
+		toolbar.setFloatable(false);
+		getContentPane().add(toolbar, BorderLayout.NORTH);
 		
 		//게임 시작 버튼
 		btnStart = new JButton("START");
 		btnStart.setBackground(Color.green);
-		tBar.add(btnStart);
+		toolbar.add(btnStart);
 		btnStart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				JButton thisBtn = (JButton)e.getSource();
-				if(thisBtn.getText().equals("START")) {
-					gamePanel.startGame();
-					thisBtn.setText("STOP");
-					thisBtn.setBackground(Color.red);
+				if(btnStart.getText().equals("START")) {
+					gamePanel.startGame(); //게임 실행
+					btnStart.setText("STOP");
+					btnStart.setBackground(Color.red);
 				}
 				else {
-					gamePanel.gameStop();
-					thisBtn.setText("START");
-					thisBtn.setBackground(Color.green);
+					gamePanel.gameStop(); //게임 중지
+					btnStart.setText("START");
+					btnStart.setBackground(Color.green);
 				}
-
 			}
 		});
 		// 게임 오버시 다시 시작하도록 연결
@@ -111,13 +100,12 @@ public class GameFrame extends JFrame {
 		btnLevel = new JButton("EASY");
 		btnLevel.setForeground(Color.WHITE);
 		btnLevel.setBackground(Color.BLACK);
-		tBar.add(btnLevel);
+		toolbar.add(btnLevel);
 		btnLevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnLevel = (JButton)e.getSource();
 				//게임 난이도 Dialog
-				LevelDialog ld = new LevelDialog(gameFrame, "LEVEL");
-				ld.setVisible(true);
+				LevelDialog levelD = new LevelDialog(gameFrame, "LEVEL");
+				levelD.setVisible(true);
 			}
 		} );
 		
@@ -125,54 +113,35 @@ public class GameFrame extends JFrame {
 		btnSize = new JButton("글자 크기");
 		btnSize.setForeground(Color.WHITE);
 		btnSize.setBackground(Color.BLACK);
-		tBar.add(btnSize);
+		toolbar.add(btnSize);
 		btnSize.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnSize = (JButton)e.getSource();
 				//글자 사이즈 Dialog
-				FontDialog fd = new FontDialog(gameFrame, "FONT SIZE");
-				fd.setVisible(true);
+				FontDialog fontD = new FontDialog(gameFrame, "FONT SIZE");
+				fontD.setVisible(true);
 			}
 		});
 		
 		//배경 음악 버튼
 		btnBgm = new JButton("MUSIC OFF");
 		btnBgm.setForeground(Color.red);
-		
 		btnBgm.setBackground(Color.BLACK);
-		tBar.add(btnBgm);
+		toolbar.add(btnBgm);
 		btnBgm.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnBgm = (JButton)e.getSource();
 				if(btnBgm.getText().equals("MUSIC OFF")) {
-					gamePanel.audioSource.stopAudio("bgm"); //음악 끄기
+					gamePanel.sound.stopSound("bgm"); //음악 끄기
 					btnBgm.setText("MUSIC ON");
 					btnBgm.setForeground(Color.GREEN);
 				}
 				else {
-					gamePanel.audioSource.playAudio("bgm"); //음악 켜기
+					gamePanel.sound.playSound("bgm"); //음악 켜기
 					btnBgm.setText("MUSIC OFF"); 
 					btnBgm.setForeground(Color.red);
 				}
 			}
-
-	//단어 가져오기
-	private class WordAction implements ActionListener {
-
-		public void actionPerformed(ActionEvent e) { // 파일 다이얼로그 사용, 파일 필터 적용
-			JFileChooser chooser = new JFileChooser("word");
-			FileNameExtensionFilter filter = new FileNameExtensionFilter(".txt 파일", "txt");
-			chooser.setFileFilter(filter);
-			int ret = chooser.showOpenDialog(null);
-			if(ret == JFileChooser.APPROVE_OPTION) {
-				String pathName = chooser.getSelectedFile().getPath(); 
-				String fileName = chooser.getSelectedFile().getName();
-				//gamePanel.textWord.changeFile(pathName);
-				JButton thisBtn = (JButton)e.getSource();
-				thisBtn.setText(fileName.split("\\.")[0]); //.txt 제거 후 버튼 이름 변경
-			}
-		}
-	} 
+		} );
+	}
 	
 	//글자 크기 조절 Dialog
 	private class FontDialog extends JDialog {
@@ -181,7 +150,7 @@ public class GameFrame extends JFrame {
 			setBounds(750, 300, 300, 150);
 			setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 			
-			JButton btnApply = new JButton("APPLY");
+			btnApply = new JButton("APPLY"); //적용 버튼
 			add(btnApply);
 			btnApply.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -191,17 +160,14 @@ public class GameFrame extends JFrame {
 			
 			//슬라이더 이용하여 글자 크기를 조절
 			JSlider slider = new JSlider(JSlider.HORIZONTAL, 10, 25, gamePanel.textSize);
-			slider.setPaintLabels(true);
-			slider.setPaintTicks(true);
-			slider.setPaintTrack(true);
-			slider.setMinorTickSpacing(1);
-			slider.setMajorTickSpacing(5);
+			slider.setPaintLabels(true);slider.setPaintTicks(true);slider.setPaintTrack(true);
+			slider.setMinorTickSpacing(1);slider.setMajorTickSpacing(5);
 			add(slider);
 			slider.addChangeListener(new ChangeListener() {
 				public void stateChanged(ChangeEvent e) {
-					int pt = slider.getValue();
-					gamePanel.settextSize(pt);
-					btnSize.setText("SIZE : "+ pt +"pt");
+					int ptsize = slider.getValue();
+					gamePanel.changeFontSize(ptsize); //크기 적용
+					btnSize.setText("SIZE : "+ ptsize +"pt");
 				}
 			});
 		}
@@ -213,42 +179,42 @@ public class GameFrame extends JFrame {
 			super(jf, title, true); 
 			setBounds(750, 300, 300, 100);
 			setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
-			
+			//easy
 			btnEasy = new JButton("EASY");
 			btnEasy.setBackground(Color.BLACK);
 			btnEasy.setForeground(Color.green);
 			add(btnEasy);
 			btnEasy.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					gamePanel.changeLevel(500, 3000);  //easy 
+					gamePanel.switchLevel(500, 3000);  //easy는 500, 3000
 					btnLevel.setText("EASY");
 					btnLevel.setForeground(Color.WHITE);
 					setVisible(false);
 				}
 				
 			});
-			
+			//normal
 			btnNormal = new JButton("NORMAL");
 			btnNormal.setBackground(Color.BLACK);
 			btnNormal.setForeground(Color.ORANGE);
 			add(btnNormal);
 			btnNormal.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					gamePanel.changeLevel(350, 2000);  //normal
+					gamePanel.switchLevel(350, 2000);  //normal은 350, 2000
 					btnLevel.setText("NORMAL");
 					btnLevel.setForeground(Color.ORANGE);
 					setVisible(false);
 				}
 				
 			});
-			
+			//hard
 			btnHard = new JButton("HARD");
 			btnHard.setBackground(Color.BLACK);
 			btnHard.setForeground(Color.RED);
 			add(btnHard);
 			btnHard.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					gamePanel.changeLevel(200, 1000);	//hard
+					gamePanel.switchLevel(200, 1000);	//hard는 200, 1000
 					btnLevel.setText("HARD");
 					btnLevel.setForeground(Color.RED);
 					setVisible(false);

@@ -2,10 +2,14 @@ CODER 5000
 ZXC 3000
 KSD 2000
 ABC 1000
+wer 370
 GUEST 350
 CJH 250
 sdf 250
+wefw 190
 CJH 180
+www 180
+we 160
 CJH 140
 CJH 140
 CJH 110
@@ -61,6 +65,7 @@ CJH 20
 CJH 20
 CJH 20
 CJH 20
+wef 20
 GUEST 10
 AAA 10
 GUEST 10
@@ -70,6 +75,10 @@ CJH 10
 sdf 10
 sdf 10
 sdf 10
+sfssss 10
+weff 10
+qq 10
+www 10
 GUEST 0
 GUEST 0
 GUEST 0
@@ -93,3 +102,12 @@ sdf 0
 ,;l 0
 wefw 0
 asdf 0
+wef 0
+wef 0
+wefwe 0
+wef 0
+wef 0
+qqq 0
+wef 0
+wew 0
+wrw 0

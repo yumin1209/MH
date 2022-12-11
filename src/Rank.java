@@ -8,7 +8,7 @@ import java.util.Scanner;
 import java.util.Vector;
 
 //단어를 파일에서 추출해서 벡터에 입력
-public class UserRanking {
+public class Rank {
 	
 	protected class User {
 		String name;
@@ -23,7 +23,7 @@ public class UserRanking {
 	private Vector<User> userVector = new Vector<>();
 	String filePath = null;
 	
-	public UserRanking() { 
+	public Rank() { 
 		filePath = "ranking/ranking.txt";
 		readRanking();
 	}
@@ -51,7 +51,7 @@ public class UserRanking {
 	}
 	
 	//유저 랭킹 저장
-	public void saveRanking(String name, int score) {
+	public void rankSave(String name, int score) {
 		User user = new User(name, score);
 		userVector.add(user);
 		
