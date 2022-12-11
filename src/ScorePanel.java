@@ -14,7 +14,7 @@ public class ScorePanel extends JPanel {
 	
 	private int score = 0;
 	private int life = 100;
-	protected String name = null;
+	public String name = null;
 	
 	private JLabel scoreLabel = new JLabel(Integer.toString(score));
 	private JLabel lifeLabel = new JLabel("LIFE ("+life+"/100)");
@@ -50,7 +50,7 @@ public class ScorePanel extends JPanel {
 	}
 	
 	
-	protected void changeScore(int score,int life) {
+	protected void settingScore(int score,int life) {
 		this.score = score;
 		this.life = life;
 		if(life<0)
