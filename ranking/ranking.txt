@@ -14,10 +14,3 @@ www 70
 wew 20
 ww 20
 qqq 10
-ww 0
-we 0
-qwe 0
-wefw 0
-wefw 0
-qwef 0
-wef 0
