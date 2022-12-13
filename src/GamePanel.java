@@ -62,8 +62,8 @@ public class GamePanel extends JPanel {
 			super(word);
 			x = (int)(Math.random()*(gameGroundPanel.getWidth()-(textSize*5+40)));
 			y = 0;
-			setForeground(Color.YELLOW);
-			setFont(new Font("GOTHIC", Font.BOLD, textSize));
+			setForeground(Color.GREEN);
+			setFont(new Font("GOTHIC",Font.PLAIN,textSize));
 			setSize(300,50);
 			
 			
@@ -100,7 +100,7 @@ public class GamePanel extends JPanel {
 				scorePanel.settingScore(score, life); //점수 변경 적용
 				
 				if(life < 50) 
-					monsterPanel.changeEmotion("danger"); //괴물의 표정이 바뀜
+					monsterPanel.changeExpression("danger"); //괴물의 표정이 바뀜
 				if(life <= 0) 
 					gameOver(); //게임 종료
 				
@@ -149,10 +149,10 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.repaint();
 		gameGroundPanel.gameThreadStart();
 		
-		monsterPanel.changeEmotion("normal");
-		life = 100;
-		score = 0;
+		monsterPanel.changeExpression("normal");
 		
+		score = 0;
+		life = 100;
 		scorePanel.settingScore(score, life); //점수 적용
 		
 		//버튼 음향
@@ -174,14 +174,14 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.gameThreadEnd();
 		gameGroundPanel.repaint();
 		
-		monsterPanel.changeEmotion("gameover");
+		monsterPanel.changeExpression("gameover");
 		
 		//랭킹 저장
 		ranking.rankSave(scorePanel.name, score);
 		
 		//게임 종료창과 함께 랭킹 보여줌
 		RankDialog gameoverdialog = new RankDialog((JFrame)getTopLevelAncestor(), "GAME OVER");
-		gameoverdialog.getContentPane().setBackground(Color.darkGray);
+		gameoverdialog.getContentPane().setBackground(Color.black);
 		gameoverdialog.setVisible(true);
 		
 		//게임종료 음향
@@ -192,31 +192,25 @@ public class GamePanel extends JPanel {
 	private class RankDialog extends JDialog {
 		private RankDialog(JFrame jf, String title) {
 			super(jf, title, false);
-			setBounds(580, 250, 370, 450);
+			setBounds(580, 250, 340, 390);
 			setLocationRelativeTo(null);
 			setLayout(null);
 			
 			JLabel golabel = new JLabel("GAME OVER");
-			golabel.setBounds(54, 20, 300, 40);
-			golabel.setFont(new Font("GOTHIC",Font.BOLD,38));
-			golabel.setForeground(Color.YELLOW);
+			golabel.setBounds(40, 20, 300, 40);
+			golabel.setFont(new Font("GOTHIC",Font.BOLD,40));
+			golabel.setForeground(Color.WHITE);
 			add(golabel);
 			
-			JLabel sclabel = new JLabel(scorePanel.name + "님  " + score + "점");
-			sclabel.setBounds(85, 35, 200, 90);
-			sclabel.setFont(new Font("GOTHIC", Font.BOLD, 30));
-			sclabel.setForeground(Color.YELLOW);
+			JLabel sclabel = new JLabel(scorePanel.name + " : " + score);
+			sclabel.setBounds(70, 60, 200, 40);
+			sclabel.setFont(new Font("GOTHIC",Font.BOLD,30));
+			sclabel.setForeground(Color.WHITE);
 			add(sclabel);
-			
-			JLabel rlabel = new JLabel("< 랭킹 >");
-			rlabel.setBounds(137, 100, 200, 40);
-			rlabel.setFont(new Font("GOTHIC", Font.BOLD, 25));
-			rlabel.setForeground(Color.WHITE);
-			add(rlabel);
 			
 			//확인 버튼
 			JButton btnCheck = new JButton("확인");
-			btnCheck.setBounds(150, 360, 60, 30);
+			btnCheck.setBounds(130, 320, 60, 20);
 			add(btnCheck);
 			
 			btnCheck.addActionListener(new ActionListener() {
@@ -230,12 +224,12 @@ public class GamePanel extends JPanel {
 				String userName = ranking.getUser(i).name;
 				int score = ranking.getUser(i).score;
 				if(i!=9)
-					sclabel = new JLabel("(" + (i+1) + ")   " + userName + "님 " + score+ "점");
+					sclabel = new JLabel("(" + (i+1) + ")   " + userName + " " + score);
 				else
-					sclabel = new JLabel("(" + (i+1) + ") " + userName + "님 " + score+ "점");
+					sclabel = new JLabel("(" + (i+1) + ") " + userName + " " + score);
 				sclabel.setForeground(Color.WHITE);
-				sclabel.setFont(new Font("GOTHIC", Font.PLAIN, 17));
-				sclabel.setBounds(80, 140+20*i, 200, 20);
+				sclabel.setFont(new Font("GOTHIC",Font.BOLD,20));
+				sclabel.setBounds(80, 100+20*i, 200, 20);
 				add(sclabel);
 			}
 			
@@ -288,7 +282,7 @@ public class GamePanel extends JPanel {
 			super.paintComponent(g);
 			g.drawImage(bgImage,0,0,getWidth(),getHeight(),null);
 			if(btnStart.getText().equals("START")) {
-				g.setColor(Color.YELLOW);
+				g.setColor(Color.green);
 				g.drawString("게임을 플레이하려면 START 버튼을 누르세요", 180, 30);
 			}
 		}
@@ -299,8 +293,7 @@ public class GamePanel extends JPanel {
 		public InputPanel() {
 			add(inputText);
 			setLayout(new FlowLayout());
-			setBackground(Color.darkGray);
-			
+			setBackground(Color.BLACK);
 			
 			inputText.addActionListener(new ActionListener() {
 				//입력한 단어가 벡터에 있는지 확인하고 삭제
@@ -335,8 +328,8 @@ public class GamePanel extends JPanel {
 							score += 10;
 							scorePanel.settingScore(score, life);
 							if(life >= 50) 
-								monsterPanel.changeEmotion("normal"); 
-							monsterPanel.changeEmotion("correct");
+								monsterPanel.changeExpression("normal"); 
+							monsterPanel.changeExpression("correct");
 							//정답 음향
 							sound.playSound("correct");
 						}
@@ -350,8 +343,8 @@ public class GamePanel extends JPanel {
 								return;
 							}
 							if(life < 50) 
-								monsterPanel.changeEmotion("danger"); // 체력이 낮으면 위험 표정
-							monsterPanel.changeEmotion("wrong"); // 실패 시 표정
+								monsterPanel.changeExpression("danger"); // 체력이 낮으면 위험 표정
+							monsterPanel.changeExpression("wrong"); // 실패 시 표정
 							
 							//오답 음향
 							sound.playSound("wrong");
