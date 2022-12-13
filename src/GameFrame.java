@@ -60,7 +60,7 @@ public class GameFrame extends JFrame {
 		
 		JSplitPane pPane = new JSplitPane();
 		pPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		pPane.setDividerLocation(240);
+		pPane.setDividerLocation(200);
 		pPane.setTopComponent(monsterPanel); //monster 패널
 		pPane.setBottomComponent(scorePanel); //점수 패널
 		hPane.setRightComponent(pPane);
@@ -77,8 +77,7 @@ public class GameFrame extends JFrame {
 		
 		//게임 시작 버튼
 		btnStart = new JButton("START");
-		btnStart.setBackground(Color.BLACK);
-		btnStart.setForeground(Color.YELLOW);
+		btnStart.setBackground(Color.green);
 		toolbar.add(btnStart);
 
 		btnStart.addActionListener(new ActionListener(){
@@ -92,7 +91,7 @@ public class GameFrame extends JFrame {
 				else {
 					gamePanel.gameStop(); //게임 중지
 					btnStart.setText("START");
-					btnStart.setBackground(Color.BLACK);
+					btnStart.setBackground(Color.green);
 				}
 			}
 		});
@@ -135,7 +134,7 @@ public class GameFrame extends JFrame {
 				if(btnBgm.getText().equals("MUSIC OFF")) {
 					gamePanel.sound.stopSound("bgm"); //음악 끄기
 					btnBgm.setText("MUSIC ON");
-					btnBgm.setForeground(Color.YELLOW);
+					btnBgm.setForeground(Color.GREEN);
 				}
 				else {
 					gamePanel.sound.playSound("bgm"); //음악 켜기
@@ -184,8 +183,8 @@ public class GameFrame extends JFrame {
 			setLayout(new FlowLayout(FlowLayout.CENTER,10,10));
 			//easy
 			btnEasy = new JButton("EASY");
-			btnEasy.setBackground(Color.darkGray);
-			btnEasy.setForeground(Color.YELLOW);
+			btnEasy.setBackground(Color.BLACK);
+			btnEasy.setForeground(Color.green);
 			add(btnEasy);
 			btnEasy.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -198,7 +197,7 @@ public class GameFrame extends JFrame {
 			});
 			//normal
 			btnNormal = new JButton("NORMAL");
-			btnNormal.setBackground(Color.darkGray);
+			btnNormal.setBackground(Color.BLACK);
 			btnNormal.setForeground(Color.ORANGE);
 			add(btnNormal);
 			btnNormal.addActionListener(new ActionListener() {
@@ -212,7 +211,7 @@ public class GameFrame extends JFrame {
 			});
 			//hard
 			btnHard = new JButton("HARD");
-			btnHard.setBackground(Color.darkGray);
+			btnHard.setBackground(Color.BLACK);
 			btnHard.setForeground(Color.RED);
 			add(btnHard);
 			btnHard.addActionListener(new ActionListener() {

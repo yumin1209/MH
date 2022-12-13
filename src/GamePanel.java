@@ -101,6 +101,7 @@ public class GamePanel extends JPanel {
 				
 				if(life < 50) 
 					monsterPanel.changeEmotion("danger"); //괴물의 표정이 바뀜
+
 				if(life <= 0) 
 					gameOver(); //게임 종료
 				
@@ -150,7 +151,8 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.gameThreadStart();
 		
 		monsterPanel.changeEmotion("normal");
-		
+		life = 100;
+
 		score = 0;
 		life = 100;
 		scorePanel.settingScore(score, life); //점수 적용
@@ -175,7 +177,7 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.repaint();
 		
 		monsterPanel.changeEmotion("gameover");
-		
+
 		//랭킹 저장
 		ranking.rankSave(scorePanel.name, score);
 		
@@ -243,12 +245,12 @@ public class GamePanel extends JPanel {
 			setLayout(null);
 		}
 		
-		Gamethread gamethread; //게임 스레드
+		makeWordThread makewordthread; //게임 스레드
 		
 		//스레드 시작
 		public void gameThreadStart() {
-			gamethread = new Gamethread();
-			gamethread.start();
+			makewordthread = new makeWordThread();
+			makewordthread.start();
 		}
 		
 		//스레드 종료
@@ -258,11 +260,11 @@ public class GamePanel extends JPanel {
 			
 			wordLabelV.clear();
 			gameGroundPanel.removeAll();
-			gamethread.interrupt();
+			makewordthread.interrupt();
 		}
 		
 		//스레드 생성
-		private class Gamethread extends Thread {
+		private class makeWordThread extends Thread {
 			public void run() {
 				while(true) {
 					WordLabel wordLabel = new WordLabel(textWord.getWord());
@@ -330,6 +332,7 @@ public class GamePanel extends JPanel {
 							if(life >= 50) 
 								monsterPanel.changeEmotion("normal"); 
 							monsterPanel.changeEmotion("correct");
+
 							//정답 음향
 							sound.playSound("correct");
 						}
@@ -342,9 +345,10 @@ public class GamePanel extends JPanel {
 								gameOver();
 								return;
 							}
-							if(life < 50) 
+							if(life < 50)
 								monsterPanel.changeEmotion("danger"); // 체력이 낮으면 위험 표정
 							monsterPanel.changeEmotion("wrong"); // 실패 시 표정
+
 							
 							//오답 음향
 							sound.playSound("wrong");
