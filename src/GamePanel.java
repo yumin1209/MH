@@ -100,7 +100,7 @@ public class GamePanel extends JPanel {
 				scorePanel.settingScore(score, life); //점수 변경 적용
 				
 				if(life < 50) 
-					
+					monsterPanel.changeEmotion("danger"); //괴물의 표정이 바뀜
 				if(life <= 0) 
 					gameOver(); //게임 종료
 				
@@ -149,7 +149,7 @@ public class GamePanel extends JPanel {
 		gameGroundPanel.repaint();
 		gameGroundPanel.gameThreadStart();
 		
-		
+		monsterPanel.changeEmotion("normal");
 		life = 100;
 		score = 0;
 		
@@ -173,6 +173,8 @@ public class GamePanel extends JPanel {
 		btnStart.setText("START");
 		gameGroundPanel.gameThreadEnd();
 		gameGroundPanel.repaint();
+		
+		monsterPanel.changeEmotion("gameover");
 		
 		//랭킹 저장
 		ranking.rankSave(scorePanel.name, score);
@@ -332,7 +334,8 @@ public class GamePanel extends JPanel {
 							score += 10;
 							scorePanel.settingScore(score, life);
 							if(life >= 50) 
-							
+								monsterPanel.changeEmotion("normal"); 
+							monsterPanel.changeEmotion("correct");
 							//정답 음향
 							sound.playSound("correct");
 						}
@@ -346,7 +349,8 @@ public class GamePanel extends JPanel {
 								return;
 							}
 							if(life < 50) 
-								
+								monsterPanel.changeEmotion("danger"); // 체력이 낮으면 위험 표정
+							monsterPanel.changeEmotion("wrong"); // 실패 시 표정
 							
 							//오답 음향
 							sound.playSound("wrong");
