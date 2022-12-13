@@ -79,13 +79,15 @@ public class GameFrame extends JFrame {
 		btnStart = new JButton("START");
 		btnStart.setBackground(Color.green);
 		toolbar.add(btnStart);
+
 		btnStart.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				if(btnStart.getText().equals("START")) {
-					gamePanel.startGame(); //게임 실행
+					gamePanel.gameStart(); //게임 실행
 					btnStart.setText("STOP");
 					btnStart.setBackground(Color.red);
 				}
+				
 				else {
 					gamePanel.gameStop(); //게임 중지
 					btnStart.setText("START");

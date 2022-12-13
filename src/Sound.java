@@ -11,9 +11,10 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 public class Sound {
 	private Clip bgm;
 	private Clip correct;
-	private Clip incorrect;
+	private Clip wrong;
 	private Clip button;
 	private Clip gameover;
+	private Clip bonus;
 	
 	public Sound() {
 		//배경음
@@ -38,12 +39,23 @@ public class Sound {
 			e.printStackTrace();
 		}
 		
+		//보너스(체력 회복)
+		try {
+			bonus = AudioSystem.getClip();
+			File bonusFile = new File("sound/bonus.wav");
+			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(bonusFile);
+			bonus.open(audioStream3);
+		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		//오답
 		try {
-			incorrect = AudioSystem.getClip();
+			wrong = AudioSystem.getClip();
 			File incorrectFile = new File("sound/wrong.wav");
-			AudioInputStream audioStream3 = AudioSystem.getAudioInputStream(incorrectFile);
-			incorrect.open(audioStream3);
+			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(incorrectFile);
+			wrong.open(audioStream4);
 		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -53,8 +65,8 @@ public class Sound {
 		try {
 			button = AudioSystem.getClip();
 			File buttonFile = new File("sound/button.wav");
-			AudioInputStream audioStream4 = AudioSystem.getAudioInputStream(buttonFile);
-			button.open(audioStream4);
+			AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(buttonFile);
+			button.open(audioStream5);
 		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,8 +76,8 @@ public class Sound {
 		try {
 			gameover = AudioSystem.getClip();
 			File gameoverFile = new File("sound/gameover.wav");
-			AudioInputStream audioStream5 = AudioSystem.getAudioInputStream(gameoverFile);
-			gameover.open(audioStream5);
+			AudioInputStream audioStream6 = AudioSystem.getAudioInputStream(gameoverFile);
+			gameover.open(audioStream6);
 		} catch (LineUnavailableException | UnsupportedAudioFileException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -82,9 +94,13 @@ public class Sound {
 			correct.setFramePosition(0); 
 			correct.start();
 		}
+		else if(name.equals("bonus")) {
+			bonus.setFramePosition(0); 
+			bonus.start();
+		}
 		else if(name.equals("wrong")) {
-			incorrect.setFramePosition(0); 
-			incorrect.start();
+			wrong.setFramePosition(0); 
+			wrong.start();
 		}
 		else if(name.equals("button")) {
 			button.setFramePosition(0); 
