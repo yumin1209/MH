@@ -7,82 +7,92 @@ import java.io.File;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
+// 이 패널에서는 아바타 이미지를 출력함
+// 디렉토리 별로 아바타의 표정 5개에 해당하는 사진을 저장
+// File 객체로 읽어서 벡터에 저장 후 상황에 맞게 출력함
 public class MonsterPanel extends JPanel {
-	Vector<Image> imageV = new Vector<>(); //이미지들을 담는 벡터
-	Image currentImg = null;
-	EmotionThread emotionThread = null;
-
+	Vector<Image> imageVector = new Vector<>(); //몬스터 이미지들을 담는 벡터
+	String filePath = null;
+	File imageDir = null;
+	File[] imageFiles = null;
+	Image currentImage = null;
+	ExpressionThread expressionThread = null;
+	
 	public MonsterPanel() {
-		File monsterF = new File("image/monster");
-		File[] monsterFiles = monsterF.listFiles();
 		
-		imageV.clear();
-		
-		//파일에서 이미지 가져와서 벡터에 넣음
-		for(int i=0; i<monsterFiles.length; i++) 
-			imageV.add(new ImageIcon(monsterFiles[i].getPath()).getImage());
-				
-		currentImg = imageV.get(1);
-		emotionThread = new EmotionThread();
-		emotionThread.start();
+		setMonster("monster");
+		currentImage = imageVector.get(1);
+		expressionThread = new ExpressionThread();
+		expressionThread.start();
 	}
-
-	//표정을 변경
-	public void changeEmotion(String text) {
-		if(text.equals("correct")) {  //0
-			emotionThread.correct = true; 
-		}else if(text.equals("normal")) { //1
-			emotionThread.normal = true; 
-		}else if(text.equals("wrong")) { //2
-			emotionThread.wrong = true; 
+	
+	protected void setMonster(String text) {
+		if(text.equals("monster")) {
+			filePath = "image/monster";
+		}
+		
+		imageDir = new File(filePath);
+		imageFiles = imageDir.listFiles();
+		
+		imageVector.clear(); // 벡터를 한번 비움
+		
+		// 디렉토리에서 이미지를 모두 가져와서 이미지 벡터 설정
+		for(int i=0;i<imageFiles.length;i++) 
+			imageVector.add(new ImageIcon(imageFiles[i].getPath()).getImage());
+	}
+	
+	// 표정을 변경, 벡터에서 파일명 알파벳 순서에 의해 정해진 표정의 인덱스는 다음과 같음
+	// 0:correct, 1:normal, 2:wrong
+	public void changeExpression(String text) {
+		switch(text) {
+		case "correct" : expressionThread.correct = true; break;
+		case "normal" : expressionThread.normal = true; break;
+		case "wrong" : expressionThread.wrong = true; break;
 		}
 	}
 	
-	//표정 스레드
-	private class EmotionThread extends Thread {
-		public boolean correct = false;
-		public boolean normal = false;
-		public boolean wrong = false;
+	//맞추거나 틀린 표정의 경우 0.5초만 띄움
+	private class ExpressionThread extends Thread {
+		protected boolean correct = false;
+		protected boolean normal = false;
+		protected boolean wrong = false;
 		
 		public void run() {
 			while(true) {
-				if(imageV.size()==3) { //평소표정
-					currentImg = imageV.get(1);
+				if(correct==true) {
+					currentImage = imageVector.get(0);
 					repaint();
-				}
-				if(correct==true) { //정답일때
-					currentImg = imageV.get(0);
-					repaint();
-					
-					try {
-						sleep(500); //0.5초
-					} catch (InterruptedException e) {
-						return;
-					}
-					
+					try {sleep(500);} catch (InterruptedException e) {return;}
 					correct=false;
 				}
-				else if(wrong==true) { //틀렸을때
-					currentImg = imageV.get(2);
+				else if(wrong==true) {
+					currentImage = imageVector.get(2);
 					repaint();
-					
-					try {
-						sleep(500); //0.5초
-					} catch (InterruptedException e) {
-						return;
-					}
-					
+					try {sleep(500);} catch (InterruptedException e) {return;}
 					wrong=false;
 				}
+				
+				if(imageVector.size()==3) { // 이미지 로딩이 됐을때
+					currentImage = imageVector.get(1);
+					repaint();
+				}
+				
+				
+				try {sleep(50);} catch (InterruptedException e) {return;}
 			}
 		}
 	}
 	
+	// 아바타 그리기
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.drawImage(currentImg, 0, 0, getWidth(), getHeight(), null);
+		g.drawImage(currentImage, 0, 0, getWidth(), getHeight(), null);
 	}
 		
 	
