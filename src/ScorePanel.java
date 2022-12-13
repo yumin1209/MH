@@ -40,13 +40,22 @@ public class ScorePanel extends JPanel {
 		textLabel.setForeground(Color.green);
 		add(textLabel);
 		
-		scoreLabel.setBounds(70, 10, 100, 20);
-		scoreLabel.setForeground(Color.green);
-		add(scoreLabel);
+		//이름
+		nameL = new JLabel(name);
+		nameL.setOpaque(true);
+		nameL.setBackground(Color.BLACK);
+		nameL.setForeground(Color.YELLOW);
+		nameL.setFont(new Font("Dialog", Font.BOLD, 22));
+		nameL.setBounds(25, 210, 120, 40);
+		nameL.setHorizontalAlignment(JLabel.CENTER);
+		add(nameL);
+				
+		//생명
+		lifeL = new JLabel("LIFE ("+life+"/100)");
+		lifeL.setBounds(10, 70, 120, 20);
+		lifeL.setForeground(Color.YELLOW);
+		add(lifeL);
 		
-		lifeLabel.setBounds(10, 60, 120, 20);
-		lifeLabel.setForeground(Color.green);
-		add(lifeLabel);
 	}
 	
 	
