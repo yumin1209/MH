@@ -9,41 +9,32 @@ import java.util.Vector;
 
 //단어를 파일에서 추출해서 벡터에 입력
 public class Rank {
+	private Vector<UserScore> userVector = new Vector<>();
 	
-	protected class User {
+	public class UserScore {
 		String name;
 		int score;
 		
-		public User(String name, int score) {
+		public UserScore(String name, int score) {
 			this.name = name;
 			this.score = score;
 		}
 	}
-	
-	private Vector<User> userVector = new Vector<>();
-	String filePath = null;
-	
-	public Rank() { 
-		filePath = "ranking/ranking.txt";
-		readRanking();
-	}
-	
-	// 랭킹 읽기
-	private void readRanking() {
-		userVector.clear(); 
 
-		//벡터에 유저 데이터 삽입
+	public Rank() { 
+		userVector.clear(); 
+		
 		try {
-			Scanner fScanner = new Scanner(new FileInputStream(filePath), "utf-8");
-			while(fScanner.hasNext()) {
-				String str = fScanner.nextLine();
+			Scanner fsc = new Scanner(new FileInputStream("ranking/ranking.txt"), "utf-8");
+			while(fsc.hasNext()) {
+				String str = fsc.nextLine();
 				String[] strArray = str.split(" ");
 				String name = strArray[0];
 				int score = Integer.parseInt(strArray[1]);
-				User user = new User(name, score);
-				userVector.add(user);
+				UserScore user = new UserScore(name, score);
+				userVector.add(user); //파일에서 데이터 읽어와서 벡터에 넣음
 			}
-			fScanner.close(); 
+			fsc.close(); 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,12 +43,12 @@ public class Rank {
 	
 	//유저 랭킹 저장
 	public void rankSave(String name, int score) {
-		User user = new User(name, score);
+		UserScore user = new UserScore(name, score);
 		userVector.add(user);
 		
-		//유저 벡터를 점수 내림차순 정렬
-		Collections.sort(userVector, new Comparator<User>() {
-			public int compare(User u1, User u2) {
+		//점수 비교해서 높은 순으로 정렬
+		Collections.sort(userVector, new Comparator<UserScore>() {
+			public int compare(UserScore u1, UserScore u2) {
 				if(u1.score < u2.score) 
 					return 1;
 				else if(u1.score==u2.score)
@@ -67,12 +58,13 @@ public class Rank {
 			}
 		});
 		
+		//파일에 벡터 데이터 쓰기
 		try {
-			FileWriter fout = new FileWriter(filePath);
+			FileWriter fw = new FileWriter("ranking/ranking.txt");
 			for(int i=0;i<userVector.size();i++) {
-				fout.write(userVector.get(i).name+" "+userVector.get(i).score+"\n");
+				fw.write(userVector.get(i).name+" "+userVector.get(i).score+"\n");
 			}
-			fout.close();
+			fw.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,7 +72,7 @@ public class Rank {
 	}
 	
 	// 랭킹으로 유저 얻기
-	public User getUser(int ranking) {
+	public UserScore getUser(int ranking) {
 		return userVector.get(ranking);
 	}
 }
