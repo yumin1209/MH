@@ -44,18 +44,18 @@ public class MainFrame extends JFrame {
 			add(label);
 			
 			// 사용자 ID 입력받음
-			textField = new JTextField("");
+			textField = new JTextField("user");
 			textField.setBounds(310,360,170,40);
 			textField.setHorizontalAlignment(JTextField.CENTER);
 			textField.setForeground(Color.WHITE);
-			textField.setBackground(Color.black);
+			textField.setBackground(Color.darkGray);
 			add(textField);
 			
 			//시작 버튼
 			btnStart = new JButton("START");
-			btnStart.setBounds(350,420,80,20);
-			btnStart.setForeground(Color.WHITE);
-			btnStart.setBackground(Color.black);
+			btnStart.setBounds(350,420,80,30);
+			btnStart.setForeground(Color.BLACK);
+			btnStart.setBackground(Color.WHITE);
 			btnStart.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String name = textField.getText(); 
