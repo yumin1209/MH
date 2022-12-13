@@ -46,6 +46,8 @@ public class GamePanel extends JPanel {
 		this.btnStart = btnStart;
 	}
 	
+	protected boolean bonusScore = false;  // 보너스 점수
+	
 	private ImageIcon bgIcon = new ImageIcon("image/background/background.jpg");
 	private Image bgImage = bgIcon.getImage();
 		
@@ -54,6 +56,7 @@ public class GamePanel extends JPanel {
 		private WordThread wordthread = null;
 		private int x; 
 		private int y;
+		protected boolean bonusWord = false;
 		
 		public WordLabel(String word) {
 			super(word);
@@ -63,6 +66,13 @@ public class GamePanel extends JPanel {
 			setFont(new Font("GOTHIC",Font.PLAIN,textSize));
 			setSize(300,50);
 			
+			
+			int r = (int)(Math.random()*5); //추가 점수 획득할 수 있는 레이블 생성
+			if(r==0) {
+				bonusWord = true;
+				setForeground(Color.RED);
+			}
+			
 			//단어 스레드 시작
 			wordLabel = this;
 			wordthread = new WordThread(); 
@@ -71,6 +81,7 @@ public class GamePanel extends JPanel {
 		
 		//단어 스레드
 		private class WordThread extends Thread {
+		
 			public void run() {
 				while(true) {
 					y += 5; //5씩 떨어짐
@@ -85,7 +96,7 @@ public class GamePanel extends JPanel {
 						break;
 				}
 				
-				life -= 5; //5씩 생명이 깎임
+				life -= 5; //바닥에 닿으면 5씩 생명이 깎임
 				scorePanel.settingScore(score, life); //점수 변경 적용
 				
 				if(life < 50) 
@@ -119,6 +130,12 @@ public class GamePanel extends JPanel {
 	public void switchLevel(int rainSpeed, int makeWordSpeed) {
 		this.rainSpeed = rainSpeed;
 		this.makeWordSpeed = makeWordSpeed;
+		gameGroundPanel.gameThreadEnd();
+		gameGroundPanel.repaint();
+		gameGroundPanel.gameThreadStart();
+		score =0;
+		life= 100;
+		scorePanel.settingScore(score, life);
 	}
 	
 	//글자 크기 변경 적용
@@ -127,12 +144,11 @@ public class GamePanel extends JPanel {
 	}
 	
 	//gameGroundPanel 시작
-	public void startGame() {
+	public void gameStart() {
 		inputText.requestFocus();
 		gameGroundPanel.repaint();
 		gameGroundPanel.gameThreadStart();
 		
-		monsterPanel.changeExpression("reset");
 		monsterPanel.changeExpression("normal");
 		
 		score = 0;
@@ -222,6 +238,7 @@ public class GamePanel extends JPanel {
 	
 	//단어 떨어지는 게임화면
 	class GameGroundPanel extends JPanel {
+		
 		public GameGroundPanel() {
 			setLayout(null);
 		}
@@ -287,6 +304,16 @@ public class GamePanel extends JPanel {
 							gameGroundPanel.remove(wordLabelV.get(i));
 							gameGroundPanel.repaint();
 							
+							if(wordLabelV.get(i).bonusWord == true) { //빨간색 단어를 맞추면 50점 추가 득점, 체력 10 회복
+								score += 40;
+								sound.playSound("bonus");
+								if(life<=90)
+									life += 10;
+								if(life == 95)
+									life += 5;
+								
+							}
+							
 							wordLabelV.get(i).wordthread.interrupt();
 							wordLabelV.remove(i);
 							return true;
@@ -299,8 +326,6 @@ public class GamePanel extends JPanel {
 						JTextField input = (JTextField)e.getSource();
 						if(checkInput(input.getText())) { //정답 -> 점수, 생명 증가
 							score += 10;
-							if(life!=100) 
-								life += 5;
 							scorePanel.settingScore(score, life);
 							if(life >= 50) 
 								monsterPanel.changeExpression("normal"); 
@@ -308,6 +333,8 @@ public class GamePanel extends JPanel {
 							//정답 음향
 							sound.playSound("correct");
 						}
+					
+					
 						else { //틀리면 생명 감소
 							life -= 5;
 							scorePanel.settingScore(score, life);
