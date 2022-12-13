@@ -38,12 +38,6 @@ public class ScorePanel extends JPanel {
 		scoreL.setFont(new Font("Dialog", Font.PLAIN, 17));
 		add(scoreL);
 		
-		//생명
-		lifeL = new JLabel("LIFE ("+life+"/100)");
-		lifeL.setBounds(10, 70, 120, 20);
-		lifeL.setForeground(Color.YELLOW);
-		add(lifeL);
-		
 		//이름
 		nameL = new JLabel(name);
 		nameL.setOpaque(true);
@@ -53,6 +47,13 @@ public class ScorePanel extends JPanel {
 		nameL.setBounds(25, 210, 120, 40);
 		nameL.setHorizontalAlignment(JLabel.CENTER);
 		add(nameL);
+				
+		//생명
+		lifeL = new JLabel("LIFE ("+life+"/100)");
+		lifeL.setBounds(10, 70, 120, 20);
+		lifeL.setForeground(Color.YELLOW);
+		add(lifeL);
+		
 	}
 	
 	public void settingScore(int score, int life) {
